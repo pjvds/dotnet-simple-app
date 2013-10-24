@@ -1,0 +1,25 @@
+box: wercker-labs/windows
+#box: ami-11703e78
+#box-type: ami
+#ami-user: Administrator
+build:
+  steps:
+    - wercker-labs/nuget
+    - wercker-labs/msbuild
+    - wercker-labs/dotnet-test
+    - script:
+        name: Copy to output
+        code: rsync -avz SimpleApp.Web/ $WERCKER_OUTPUT_DIR/
+#    - script:
+#        name: List source dir
+#        code: |
+#          cd $WERCKER_SOURCE_DIR
+#          ls -al
+#          /cygdrive/c/Windows/Microsoft.NET/Framework64/v4.0.30319/MSBuild.exe SimpleApp.sln
+deploy:
+  steps:
+    - wercker-labs/azure-ftp-deploy:
+        publish-url: ftp://waws-prod-blu-003.ftp.azurewebsites.windows.net/site/wwwroot
+        username: teasldkfjalfkjlkj\\\$teasldkfjalfkjlkj
+        password: $AZURE_PASSWORD
+
